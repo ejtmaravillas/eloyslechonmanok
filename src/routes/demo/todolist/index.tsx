@@ -21,6 +21,7 @@ export const useListLoader = routeLoader$(() => {
 
 export const useAddToListAction = routeAction$(
   (item) => {
+    console.log(`item added ${item}`);
     list.push(item);
     return {
       success: true,
