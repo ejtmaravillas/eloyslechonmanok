@@ -1,8 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import { QwikLogo } from "../icons/qwik";
 import styles from "./header.module.css";
+import { Form } from '@builder.io/qwik-city';
+import { useAuthSignin } from '~/routes/plugin@auth';
 
 export default component$(() => {
+  const signIn = useAuthSignin();
   return (
     <header class={styles.header}>
       <div class={["container", styles.wrapper]}>
@@ -35,6 +38,11 @@ export default component$(() => {
             >
               Tutorials
             </a>
+          </li>
+          <li>
+          <Form action={signIn}>
+            <button>Sign In</button>
+          </Form>
           </li>
         </ul>
       </div>
