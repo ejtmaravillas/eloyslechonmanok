@@ -1,10 +1,9 @@
 import { serverAuth$ } from "@builder.io/qwik-auth";
-import GitHub from "@auth/core/providers/github";
 import type { Provider } from "@auth/core/providers";
-import { FirestoreAdapter } from "@auth/firebase-adapter"
-import { cert } from "firebase-admin/app"
 import CredentialsProvider from "@auth/core/providers/credentials"
 import Facebook from "@auth/core/providers/facebook"
+import { D1Adapter } from "@auth/d1-adapter"
+import type { D1Database } from "@cloudflare/workers-types"
 
 export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
   serverAuth$(({ env }) => ({
@@ -25,6 +24,7 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
         async authorize(credentials, req) {
           // Add logic here to look up the user from the credentials supplied
           console.log(`login ${JSON.stringify(credentials)}`)
+          console.log(`login ${JSON.stringify(req)}`)
           const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
 
           if (user) {
@@ -40,11 +40,5 @@ export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } =
         }
       })
     ] as Provider[],
-    adapter: FirestoreAdapter({
-      credential: cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-      })
-    })
+    adapter: D1Adapter(env.get("DB") as unknown as D1Database )
   }));
