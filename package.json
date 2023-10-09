@@ -26,7 +26,9 @@
     "qwik": "qwik"
   },
   "devDependencies": {
+    "@auth/core": "^0.13.0",
     "@builder.io/qwik": "^1.2.13",
+    "@builder.io/qwik-auth": "0.1.1",
     "@builder.io/qwik-city": "^1.2.13",
     "@types/eslint": "8.44.1",
     "@types/node": "^20.4.5",
@@ -40,5 +42,9 @@
     "vite": "4.4.7",
     "vite-tsconfig-paths": "4.2.0",
     "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "@auth/firebase-adapter": "^1.0.1",
+    "firebase-admin": "^11.11.0"
   }
 }
