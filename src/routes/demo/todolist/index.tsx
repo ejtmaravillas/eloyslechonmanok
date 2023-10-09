@@ -8,6 +8,7 @@ import {
   Form,
 } from "@builder.io/qwik-city";
 import styles from "./todolist.module.css";
+import { D1Database } from "@cloudflare/workers-types";
 
 interface ListItem {
   text: string;
@@ -20,8 +21,12 @@ export const useListLoader = routeLoader$(() => {
 });
 
 export const useAddToListAction = routeAction$(
-  (item) => {
+  async (item, requestEvent) => {
+    const db = requestEvent.env.get("DB") as unknown as D1Database
+    const preparedStatement = db.prepare(`SELECT date()`)
+    const result = await preparedStatement.first()
     console.log(`item added ${JSON.stringify(item)}`);
+    console.log(`result added ${JSON.stringify(result)}`);
     list.push(item);
     return {
       success: true,
